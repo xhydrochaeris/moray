@@ -135,6 +135,11 @@ if __name__ == "__main__":
                     print(f"An error occurred: {e}")
                     exit(1)
 
+                summary_elements = card.find_elements(By.CSS_SELECTOR, "summary.public-track-summary")
+                if summary_elements:
+                    summary_elements[0].click()
+                    time.sleep(0.2)
+
                 track_buttons = card.find_elements(By.XPATH, ".//button[.//span[contains(@class, 'track-item__num')]]")
 
                 for btn in track_buttons:
