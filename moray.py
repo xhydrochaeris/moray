@@ -135,7 +135,7 @@ if __name__ == "__main__":
                     print(f"An error occurred: {e}")
                     exit(1)
 
-                summary_elements = card.find_elements(By.CSS_SELECTOR, "summary.public-track-summary")
+                summary_elements = card.find_elements(By.CSS_SELECTOR, "details.public-track-details:not([open])")
                 if summary_elements:
                     summary_elements[0].click()
                     time.sleep(0.2)
