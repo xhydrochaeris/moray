@@ -190,6 +190,15 @@ if __name__ == "__main__":
                     cookie_str = "; ".join([f"{c['name']}={c['value']}" for c in cookies])
                     user_agent = driver.execute_script("return navigator.userAgent;")
 
+                    try:
+                        # Wait up to 2 seconds for an alert to appear in the browser
+                        alert = WebDriverWait(driver, 2).until(EC.alert_is_present())
+                        alert.accept()
+                        print("  -> Track not playable at this time. Skipping.")
+                        continue
+                    except:
+                        pass
+
                     ffmpeg_cmd = [
                         "ffmpeg",
                         "-y",
