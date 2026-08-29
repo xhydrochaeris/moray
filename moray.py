@@ -3,7 +3,7 @@ import nodriver as uc
 
 from pathlib import Path
 
-import re, subprocess, argparse
+import re, subprocess, argparse, os
 from random import randint
 
 def sanitize_filename(name: str) -> str:
@@ -92,7 +92,10 @@ async def main():
     parser.add_argument("urls", nargs="+", help="One or more URLs to process")
     args = parser.parse_args()
 
-    browser = await uc.start()
+    profile_dir = os.path.join(os.getcwd(), "chrome_profile")
+    print(f"Using Chrome profile: {profile_dir}")
+
+    browser = await uc.start(user_data_dir=profile_dir)
 
     if args.auth:
         await browser.get("https://evilenlucifervk.com")
