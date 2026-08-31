@@ -10,33 +10,31 @@ class StreamRipper:
             url = flow.request.pretty_url
 
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-            filename = f"stream_{timestamp}.mp3"
+            filename = f"stream_{timestamp}"
 
-            print(f"\n[!] Stream intercepted! Starting ffmpeg for {filename}")
+            print(f"\n[!] Stream intercepted! Starting yt-dlp for {filename}")
 
-            # 1. Extract headers from the Android app's request
+            # 1. Extract headers from the Android app's request & add to command
             headers = flow.request.headers
-            header_str = ""
+            ytdlp_cmd = [
+                "yt-dlp"
+            ]
             for key, value in headers.items():
                 # We skip Host and Content-Length as ffmpeg calculates those itself
                 if key.lower() not in ['host', 'content-length']:
-                    header_str += f"{key}: {value}\r\n"
+                    ytdlp_cmd.append("--add-headers")
+                    ytdlp_cmd.append(f"{key}:{value}")
 
-            # 2. Construct the ffmpeg command WITH headers
-            ffmpeg_cmd = [
-                "ffmpeg",
-                "-y",
-                "-headers", header_str,
-                "-i", url,
-                "-c", "copy",
-                filename
-            ]
+            # 2. Complete the yt-dlp command
+            ytdlp_cmd.append(url)
+            ytdlp_cmd.append("-o")
+            ytdlp_cmd.append(filename+".%(ext)s")
 
-            # 3. Open a log file so we can see ffmpeg's output
+            # 3. Open a log file so we can see yt-dlp's output
             log_file = open(f"{filename}.log", "w")
             print(f"    -> Writing logs to {filename}.log")
 
-            # 4. Launch ffmpeg, sending stderr to the log file
-            subprocess.Popen(ffmpeg_cmd, stdout=log_file, stderr=subprocess.STDOUT)
+            # 4. Launch yt-dlp, sending stderr to the log file
+            subprocess.Popen(ytdlp_cmd, stdout=log_file, stderr=subprocess.STDOUT)
 
 addons = [StreamRipper()]

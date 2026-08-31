@@ -22,7 +22,7 @@ If you can't run it yourself, you can find some of the app-exclusive content rip
 
 ## Setup
 
-You need Waydroid + ARM translation layer + mitmproxy
+You need Waydroid + ARM translation layer + mitmproxy + yt-dlp. You also need to install the Evil en Lucifer app in Waydroid.
 
 ```
 # Enable IP forwarding
@@ -60,5 +60,3 @@ Unfortunately this cannot be automated. You must click each track you want to ri
 2. Select songs in the Evil en Lucifer app running in Waydroid
 
 If you select a song and it doesn't rip, clear Evil en Lucifer app's cache
-
-If the file is 0B, you might need to temporarily change the filename extension in lair.py (e.g to .m4a instead of .mp3)
